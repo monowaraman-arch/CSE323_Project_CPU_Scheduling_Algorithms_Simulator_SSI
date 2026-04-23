@@ -1,121 +1,94 @@
 # CPU Scheduling Algorithms Simulator
 
-This project is a C++ console application that simulates and compares five CPU scheduling algorithms used in operating systems.
+This project is a C++ console application for simulating and comparing common CPU scheduling algorithms used in operating systems courses. It can display either an execution timeline or a statistics table for the selected algorithms, making it useful for both demonstration and analysis.
 
-## Algorithms Implemented
+## Implemented Algorithms
 
-- First-Come, First-Served (`FCFS`)
+- First Come First Serve (`FCFS`)
 - Shortest Job First (`SJF`)
 - Shortest Remaining Time First (`SRTF`)
 - Priority Scheduling
 - Round Robin (`RR`)
 
-## Current Project Structure
-
-The repository is organized with the main project files in a single folder:
-
-- `main.cpp` - scheduling algorithm implementations and output formatting
-- `parser.h` - input parsing and shared data structures
-- `makefile` - simple build commands
-- `README.md` - project documentation
-- `PROJECT_PROPOSAL.pdf` - project proposal document
-- `TECHNICAL_REPORT.docx` - technical report
-- `CSE323_Project_Recording.mp4` - project demo recording
-
 ## Features
 
-- Runs multiple scheduling algorithms in one execution
-- Supports `trace` mode for timeline-based output
-- Supports `stats` mode for performance metrics
-- Displays finish time, turnaround time, and normalized turnaround time
-- Supports Round Robin with custom quantum values such as `5-2`
-- Accepts interactive input from the terminal
+- Runs multiple scheduling algorithms in a single execution
+- Supports `trace` mode for timeline-based visualization
+- Supports `stats` mode for performance comparison
+- Calculates finish time, turnaround time, and normalized turnaround time
+- Supports Round Robin with configurable quantum values such as `5-2`
+- Accepts both interactive terminal input and compact piped input
+
+## Project Files
+
+- `main.cpp` - scheduling logic, execution flow, and output formatting
+- `parser.h` - input parsing, shared data structures, and global containers
+- `makefile` - simple build commands for GCC or MinGW-style environments
+- `README.md` - project documentation
+- `PROJECT_PROPOSAL.pdf` - project proposal
+- `TECHNICAL_REPORT.pdf` - technical report
+- `CSE323_Project_Recording.mp4` - project demonstration video
 
 ## Build
 
-### Using `make`
+### With `make`
 
 ```bash
-make
+make target
 ```
 
-This builds the program as `lab4`.
+This produces:
 
-### Using `g++`
+- `main.o`
+- `lab4`
+
+### With `g++`
+
+Linux or macOS:
 
 ```bash
 g++ -std=c++17 -o lab4 main.cpp
 ```
 
-On Windows PowerShell:
+Windows PowerShell:
 
 ```powershell
 g++ -std=c++17 -o lab4.exe main.cpp
 ```
 
-## How To Run
+## Run
 
-If you already have the executable:
+If you built the Windows executable:
 
 ```powershell
 .\lab4.exe
 ```
 
-If you build with `g++`:
+If you built on Linux or macOS:
 
-```powershell
-g++ -std=c++17 -o lab4.exe main.cpp
-.\lab4.exe
+```bash
+./lab4
 ```
 
-## Input Format
+## Input Modes
 
-When the program runs interactively, enter the values in this order.
+The program automatically detects whether input is interactive or piped.
 
-### Line 1: Mode
+### Interactive Input
 
-```text
-trace
-```
+When you run the program directly from the terminal, it prompts for:
 
-or
+1. Mode: `trace` or `stats`
+2. Algorithm list
+3. Last instant
+4. Number of processes
+5. Process data for each process:
+   - process name
+   - arrival time
+   - burst time
+   - priority
 
-```text
-stats
-```
-
-### Line 2: Scheduling Algorithms
-
-Enter one or more algorithms separated by commas.
-
-```text
-1,2,3,4,5-2
-```
-
-### Line 3: Last Instant
-
-This is the final time value shown in the timeline.
-
-```text
-15
-```
-
-### Line 4: Number of Processes
-
-```text
-3
-```
-
-### Remaining Input: Process Data
-
-For interactive mode, the program asks for each process separately:
-
-- process name
-- arrival time
-- burst time
-- priority
-
-Example interactive entry:
+Example:
 
 ```text
 stats
@@ -136,7 +109,27 @@ P3
 1
 ```
 
-## Algorithm IDs
+### Piped or File Input
+
+When input is redirected from a file or stream, each process should be written in compact format:
+
+```text
+name,arrival,burst,priority
+```
+
+Example:
+
+```text
+trace
+1,3,5-2
+15
+3
+P1,0,5,2
+P2,1,3,4
+P3,2,1,1
+```
+
+## Algorithm Codes
 
 - `1` = FCFS
 - `2` = SJF
@@ -150,11 +143,9 @@ Examples:
 - `4,5-2`
 - `1,2,3,4,5-4`
 
-## Output
+## Output Modes
 
-The simulator supports two output modes.
-
-### `trace` Mode
+### `trace`
 
 This mode prints a scheduling timeline.
 
@@ -173,15 +164,17 @@ P3     | | |.|.|*| | | | | | | | | | |
 ------------------------------------------------
 ```
 
-### `stats` Mode
+### `stats`
 
-This mode prints:
+This mode prints a summary table for each selected algorithm, including:
 
 - arrival time
 - burst time
+- priority values for Priority Scheduling
 - finish time
 - turnaround time
 - normalized turnaround time
+- average turnaround and average normalized turnaround
 
 Example:
 
@@ -189,33 +182,25 @@ Example:
 SRTF
 Process    |  P1  |  P2  |  P3  |
 Arrival    |  0  |  1  |  2  |
-Burst      |  5  |  3  |  1  | Mean|
+Burst    |  5  |  3  |  1  | Mean|
 Finish     |  9  |  5  |  3  |-----|
 Turnaround |  9  |  4  |  1  | 4.67|
 NormTurn   | 1.80| 1.33| 1.00| 1.38|
 ```
 
-## Priority Rule
+## Scheduling Rules Used
 
-In this project:
+- Higher numeric priority means higher scheduling priority
+- If two processes have the same priority, the earlier arrival is chosen first
+- If both priority and arrival time are the same, the earlier input order is used
+- Processes should be entered in arrival order for correct simulation behavior
 
-- a larger priority value means higher priority
-- if two processes have the same priority, the earlier arrival is chosen first
-- if both priority and arrival time are the same, input order is used
-
-## Notes
-
-- Priority is most relevant for Priority Scheduling, but the program still reads it for every process
-- The process list should be entered in arrival order
-- `trace` mode is useful for visual comparison
-- `stats` mode is useful for numerical comparison
-
-## Included Documents
+## Documents Included
 
 - `PROJECT_PROPOSAL.pdf`
-- `TECHNICAL_REPORT.docx`
+- `TECHNICAL_REPORT.pdf`
 - `CSE323_Project_Recording.mp4`
 
 ## Summary
 
-This project demonstrates operating systems concepts through a working simulation of CPU scheduling algorithms. It also shows practical use of C++ data structures such as queues, priority queues, vectors, and tuples.
+This simulator demonstrates core operating systems scheduling concepts through a practical C++ implementation using queues, priority queues, vectors, and tuples. It is designed to help compare algorithm behavior visually and numerically in a straightforward console-based environment.
