@@ -19,6 +19,10 @@ This project is a C++ console application for simulating and comparing common CP
 - Supports Round Robin with configurable quantum values such as `5-2`
 - Accepts both interactive terminal input and compact piped input
 
+## Video Simulation
+
+- [YouTube Simulation Video](https://youtu.be/lVJODH5qnPw)
+
 ## Project Files
 
 - `main.cpp` - scheduling logic, execution flow, and output formatting
@@ -27,7 +31,6 @@ This project is a C++ console application for simulating and comparing common CP
 - `README.md` - project documentation
 - `PROJECT_PROPOSAL.pdf` - project proposal
 - `TECHNICAL_REPORT.pdf` - technical report
-- `CSE323_Project_Recording.mp4` - project demonstration video
 
 ## Build
 
@@ -199,7 +202,6 @@ NormTurn   | 1.80| 1.33| 1.00| 1.38|
 
 - `PROJECT_PROPOSAL.pdf`
 - `TECHNICAL_REPORT.pdf`
-- `CSE323_Project_Recording.mp4`
 
 ## Summary
 
